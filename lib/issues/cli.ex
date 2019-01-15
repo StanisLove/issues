@@ -13,6 +13,17 @@ defmodule Issues.CLI do
     |> process
   end
 
+  def process(:help) do
+    IO.puts """
+    usage: issues <user> <project> [count|#{@default_count}]
+    """
+    System.halt(0)
+  end
+
+  def process({user, project, _count}) do
+    Issues.GithubIssues.fetch(user, project)
+  end
+
   @doc """
   `argv` can be -h or --help, which returns :help.
   Otherwise it is a github user name, project name, and (optionally)
